@@ -1,0 +1,4 @@
+/server/	
+		npm i express nodemon
+/client/
+		
