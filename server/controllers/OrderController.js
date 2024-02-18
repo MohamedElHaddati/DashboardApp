@@ -1,7 +1,7 @@
-import Order from './models/Order.js';
-import { supplier } from '../models/Supplier.js';
-import { product } from '../models/Product.js';; 
-export const getOrders = async (req, res) => {
+import { Order } from '../models/Order.js';
+import { Supplier } from '../models/Supplier.js';
+import { Product } from '../models/Product.js';; 
+export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find({}).populate('supplier').populate({
       path: 'products.product',
@@ -77,13 +77,6 @@ export const createOrder = async (req, res) => {
     }
   };
 
-  try {
-    const newOrder = await order.save();
-    res.status(201).json(newOrder);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-
 
 // Update an existing order
 export const updateOrder = async (req, res) => {
@@ -110,17 +103,3 @@ export const deleteOrder = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-app.post('/Add',jsonparser, async (req, res) => {
-    try {
-      const category = new categorieategorie({
-        name: req.body.name,
-        description: req.body.description
-      });
-      await category.save();
-      console.log(category);
-      res.status(201).send('Category created');
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error creating category');
-    }
-  });

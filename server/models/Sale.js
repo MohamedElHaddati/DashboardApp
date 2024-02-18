@@ -17,6 +17,6 @@ const saleSchema = new mongoose.Schema({
   }]
 });
 
-export const sale = mongoose.model('sale', saleSchema,'Sale');
+export const Sale = mongoose.model('sale', saleSchema,'Sale');
 
 
