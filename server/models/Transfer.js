@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
-const transfertSchema = new mongoose.Schema({
+const transferSchema = new mongoose.Schema({
   warehouse_src: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Warehouse',
@@ -28,6 +28,5 @@ const transfertSchema = new mongoose.Schema({
   }]
 });
 
-const Transfert = mongoose.model('Transfert', transfertSchema);
+export const transfer = mongoose.model('transfer', transferSchema,"Transfer");
 
-module.exports = Transfert;

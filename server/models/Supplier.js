@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
-const fournisseurSchema = new mongoose.Schema({
+const supplierSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -15,7 +15,5 @@ const fournisseurSchema = new mongoose.Schema({
     type: String
   }
 });
+export const supplier = mongoose.model('supplier', supplierSchema,"Supplier");
 
-const Fournisseur = mongoose.model('Fournisseur', fournisseurSchema);
-
-module.exports = Fournisseur;

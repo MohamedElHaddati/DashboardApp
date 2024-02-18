@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const saleSchema = new mongoose.Schema({
   date: {
@@ -17,6 +17,6 @@ const saleSchema = new mongoose.Schema({
   }]
 });
 
-const Sale = mongoose.model('Sale', saleSchema);
+export const sale = mongoose.model('sale', saleSchema,'Sale');
 
-module.exports = Sale;
+
