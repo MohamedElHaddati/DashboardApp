@@ -8,16 +8,27 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    // Validate email format
+    validate: {
+      validator: function(v) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      },
+      message: props => `${props.value} is not a valid email address!`
+    }
   },
-  tel: {
-    type: String
-  },
+  tel: String,
   password: {
     type: String,
-    required: true
+    required: true,
+    // Validate minimum password length
+    validate: {
+      validator: function(v) {
+        return v.length >= 8;
+      },
+      message: props => `Password must be at least 8 characters long!`
+    }
   }
 });
 
-export const User = mongoose.model('user', userSchema,"User");
-
+export const User = mongoose.model('user', userSchema, "User");

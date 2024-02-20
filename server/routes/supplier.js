@@ -1,11 +1,11 @@
 import express from "express";
 const router = express.Router();
-import { createSupllier, getAllSuplliers, getSupllierById, updateSupllier, deleteSupllier } from '../controllers/SupllierController.js';
+import { createSupplier, getAllSuppliers, getSupplierById, updateSupplier, deleteSupplier } from '../controllers/SupplierController.js';
 
-router.post('/', createSupllier);
-router.get('/', getAllSuplliers);
-router.get('/:id', getSupllierById);
-router.put('/:id', updateSupllier);
-router.delete('/:id', deleteSupllier);
+router.post('/', createSupplier);
+router.get('/', getAllSuppliers);
+router.get('/:id', getSupplierById);
+router.put('/:id', updateSupplier);
+router.delete('/:id', deleteSupplier);
 
 export {router};

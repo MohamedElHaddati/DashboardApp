@@ -9,10 +9,12 @@ const supplierSchema = new mongoose.Schema({
     type: String
   },
   email: {
-    type: String
+    type: String,
+    required: true
   },
   address: {
-    type: String
+    type: String,
+    required: true
   }
 });
 export const Supplier = mongoose.model('supplier', supplierSchema,"Supplier");

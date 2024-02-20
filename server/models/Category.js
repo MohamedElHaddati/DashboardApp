@@ -1,14 +1,15 @@
 import mongoose, { model } from "mongoose";
 
-const categorieSchema = new mongoose.Schema({
+const categorySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   description: {
     type: String
   }
 });
 
-export const Categorie = mongoose.model('categorie', categorieSchema,"Category");
+export const Category = mongoose.model('category', categorySchema,"Category");
 

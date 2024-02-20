@@ -2,13 +2,20 @@ import { Product } from "../models/Product.js";
 
 // Create a new product
 export const createProduct = async (req, res) => {
-  try {
-    const newProduct = await Product.create(req.body);
-    res.status(201).json(newProduct);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
+    try {
+      const newProduct = await Product.create(req.body);
+      res.status(201).json(newProduct);
+    } catch (error) {
+      if (error.code === 11000 && error.keyPattern && error.keyPattern.name && error.keyPattern.brand) {
+        // Handle duplicate key error (name and brand combination already exists)
+        // MongoDB command: db.Product.createIndex( { name: 1, brand: 1 }, { unique: true } )
+        res.status(400).json({ message: 'Product with the same name and brand already exists' });
+      } else {
+        // Handle other errors
+        res.status(500).json({ message: 'An error occurred' });
+      }
+    }
+  };
 
 // Get all products
 export const getAllProducts = async (req, res) => {
