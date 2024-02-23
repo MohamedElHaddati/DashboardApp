@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema({
+  id: { type: Number, unique: true },
   name: {
     type: String,
     required: true
@@ -28,10 +30,15 @@ const userSchema = new mongoose.Schema({
       },
       message: props => `Password must be at least 8 characters long!`
     }
+  },
+  createdAt: {
+    type: Date,
+    default: new Date(),
   }
 });
 
 userSchema.pre('save', async function(next) {
+  this.password = await bcrypt.hash(this.password, 12);
   if (!this.id) {
     const count = await User.countDocuments();
     this.id = count + 1;

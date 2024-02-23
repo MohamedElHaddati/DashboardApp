@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const warehouseSchema = new mongoose.Schema({
+  id: { type: Number, unique: true },
   name: {
     type: String,
     required: true

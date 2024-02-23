@@ -27,12 +27,16 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
     min: [0, 'Discount cannot be negative']
+  },
+  createdAt: {
+    type: Date,
+    default: new Date(),
   }
 });
 
-orderSchema.pre('save', async function(next) {
+productSchema.pre('save', async function(next) {
   if (!this.id) {
-    const count = await Order.countDocuments();
+    const count = await Product.countDocuments();
     this.id = count + 1;
   }
   next();

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const customerSchema = new mongoose.Schema({
+  id: { type: Number, unique: true },
   name: {
     type: String,
     required: true
@@ -15,7 +16,11 @@ const customerSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  tel: String
+  tel: String,
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  }
 });
 
 customerSchema.pre('save', async function(next) {

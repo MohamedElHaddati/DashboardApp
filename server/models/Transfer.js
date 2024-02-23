@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const transferSchema = new mongoose.Schema({
+  id: { type: Number, unique: true },
   warehouse_src: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Warehouse',
