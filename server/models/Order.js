@@ -18,9 +18,10 @@ const orderSchema = new mongoose.Schema({
       type: Number,
       default: 1
     }
-  }]
+  }],
+  customer: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' }
 });
 
-export const Order = mongoose.model('order', orderSchema,"Order");
+export const Order = mongoose.model('order', orderSchema);
 
 

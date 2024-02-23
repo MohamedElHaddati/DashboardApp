@@ -22,8 +22,12 @@ const warehouseSchema = new mongoose.Schema({
   capacity: {
     type: Number,
     required: true
-  }
+  },
+  type: {
+    type: String
+  },
+  employees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Employee' }]
 });
 
-export const Warehouse = mongoose.model('warehouse', warehouseSchema,"Warehouse");
+export const Warehouse = mongoose.model('warehouse', warehouseSchema);
 
