@@ -28,5 +28,13 @@ const transferSchema = new mongoose.Schema({
   }]
 });
 
+transferSchema.pre('save', async function(next) {
+  if (!this.id) {
+    const count = await Transfer.countDocuments();
+    this.id = count + 1;
+  }
+  next();
+});
+
 export const Transfer = mongoose.model('transfer', transferSchema);
 

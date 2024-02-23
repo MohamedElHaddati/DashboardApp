@@ -31,4 +31,12 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+userSchema.pre('save', async function(next) {
+  if (!this.id) {
+    const count = await User.countDocuments();
+    this.id = count + 1;
+  }
+  next();
+});
+
 export const User = mongoose.model('user', userSchema);

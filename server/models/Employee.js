@@ -26,6 +26,6 @@ employeeSchema.pre('save', async function(next) {
       this.id = count + 1;
     }
     next();
-  });
+});
 
 export const Employee = mongoose.model('employee', employeeSchema);

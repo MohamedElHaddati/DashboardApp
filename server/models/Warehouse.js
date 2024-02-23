@@ -29,5 +29,13 @@ const warehouseSchema = new mongoose.Schema({
   employees: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Employee' }]
 });
 
+warehouseSchema.pre('save', async function(next) {
+  if (!this.id) {
+    const count = await Warehouse.countDocuments();
+    this.id = count + 1;
+  }
+  next();
+});
+
 export const Warehouse = mongoose.model('warehouse', warehouseSchema);
 

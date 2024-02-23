@@ -22,6 +22,14 @@ const orderSchema = new mongoose.Schema({
   customer: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' }
 });
 
+orderSchema.pre('save', async function(next) {
+  if (!this.id) {
+    const count = await Order.countDocuments();
+    this.id = count + 1;
+  }
+  next();
+});
+
 export const Order = mongoose.model('order', orderSchema);
 
 

@@ -17,5 +17,15 @@ const supplierSchema = new mongoose.Schema({
     required: true
   }
 });
+
+supplierSchema.pre('save', async function(next) {
+  if (!this.id) {
+    const count = await Supplier.countDocuments();
+    this.id = count + 1;
+  }
+  next();
+});
+
+
 export const Supplier = mongoose.model('supplier', supplierSchema);
 

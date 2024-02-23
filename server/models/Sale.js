@@ -17,6 +17,14 @@ const saleSchema = new mongoose.Schema({
   }]
 });
 
+saleSchema.pre('save', async function(next) {
+  if (!this.id) {
+    const count = await Sale.countDocuments();
+    this.id = count + 1;
+  }
+  next();
+});
+
 export const Sale = mongoose.model('sale', saleSchema);
 
 

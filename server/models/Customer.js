@@ -18,4 +18,12 @@ const customerSchema = new mongoose.Schema({
   tel: String
 });
 
+customerSchema.pre('save', async function(next) {
+    if (!this.id) {
+      const count = await Customer.countDocuments();
+      this.id = count + 1;
+    }
+    next();
+});
+
 export const Customer = mongoose.model('customer', customerSchema);
