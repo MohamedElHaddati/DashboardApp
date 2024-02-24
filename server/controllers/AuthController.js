@@ -1,6 +1,29 @@
 import { User } from "../models/User.js"
 import { createSecretToken } from "../util/SecretToken.js";
 import bcrypt from "bcrypt" 
+import { Blacklist} from '../models/Blacklist.js';
+
+export async function logout(req, res) {
+    try {
+        const authHeader = req.headers['cookie'];
+        if (!authHeader) return res.sendStatus(204); // No content
+
+        const cookie = authHeader.split('=')[1];
+        const accessToken = cookie.split(';')[0];
+
+        const checkIfBlacklisted = await Blacklist.findOne({ token: accessToken });
+        if (checkIfBlacklisted) return res.sendStatus(204);
+
+        const newBlacklist = new Blacklist({ token: accessToken });
+        await newBlacklist.save();
+
+        res.setHeader('Clear-Site-Data', '"cookies"');
+        res.status(200).json({ message: 'You are logged out!' });
+    } catch (err) {
+        res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+    }
+}
+
 
 export const Signup = async (req, res, next) => {
   try {
