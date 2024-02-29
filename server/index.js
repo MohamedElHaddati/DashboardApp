@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -15,6 +16,11 @@ import { router as customerRoutes } from "./routes/customer.js";
 //import { router as orderRoutes } from "./routes/order.js";
 //import { router as saleRoutes } from "./routes/sale.js";
 //import { router as transferRoutes } from "./routes/transfer.js";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 import dotenv from "dotenv";
 
@@ -52,6 +58,10 @@ app.use("/customer", customerRoutes);
 //app.use('/order', orderRoutes);
 //app.use('/transfer', transferRoutes);
 //app.use('/sale', saleRoutes);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/', 'index.html'));
+});
 
 // Start the server
 app.listen(PORT, () => {

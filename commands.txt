@@ -1,4 +1,5 @@
 /server/	
-		npm i express nodemon
+		npm i express nodemon mongoose mongodb body-parser
 /client/
+		
 		

@@ -1,17 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Container } from 'react-bootstrap';
+import { Outlet } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Header from './components/Header';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
     <>
-      <h1>Bonjour!</h1>
-    
+      <Header />
+      <ToastContainer />
+      <Container className='my-2'>
+        <Outlet />
+      </Container>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
