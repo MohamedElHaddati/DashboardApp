@@ -7,7 +7,6 @@ import Header from './components/Header';
 const App = () => {
   return (
     <>
-      <Header />
       <ToastContainer />
       <Container className='my-2'>
         <Outlet />
