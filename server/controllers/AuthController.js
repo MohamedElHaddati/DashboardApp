@@ -6,7 +6,7 @@ import { Blacklist} from '../models/Blacklist.js';
 export async function logout(req, res) {
     try {
         const authHeader = req.headers['cookie'];
-        if (!authHeader) return res.sendStatus(204); // No content
+        if (!authHeader) return res.sendStatus(204); 
 
         const cookie = authHeader.split('=')[1];
         const accessToken = cookie.split(';')[0];
