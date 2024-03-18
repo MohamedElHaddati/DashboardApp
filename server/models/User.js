@@ -40,8 +40,12 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', async function(next) {
   this.password = await bcrypt.hash(this.password, 12);
   if (!this.id) {
-    const count = await User.countDocuments();
-    this.id = count + 1;
+    const lastUser = await User.findOne({}, {}, { sort: { 'id': -1 } }); // Find the user with the highest id
+    if (lastUser) {
+      this.id = lastUser.id + 1; // Increment the id
+    } else {
+      this.id = 1; // If there are no users yet, start with 1
+    }
   }
   next();
 });
