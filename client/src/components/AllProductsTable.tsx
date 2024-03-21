@@ -6,8 +6,6 @@ import {
   Table,
 } from "flowbite-react";
 import { useEffect, type FC, useState } from "react";
-import { HiOutlineExclamationCircle, HiTrash } from "react-icons/hi";
-import EditProductModal from "./EditProductModal";
 
 const AllProductsTable: FC = function () {
 

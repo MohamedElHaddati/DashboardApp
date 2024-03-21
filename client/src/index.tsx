@@ -10,6 +10,7 @@ import DashboardPage from "./pages";
 import SignInPage from "./pages/authentication/sign-in";
 import EcommerceProductsPage from "./pages/e-commerce/products";
 import UserListPage from "./pages/users/list";
+import TransactionsPage from "./pages/transactions/list"
 
 const container = document.getElementById("root");
 
@@ -31,6 +32,7 @@ root.render(
           {/*<Route path="/authentication/sign-up" element={<SignUpPage />} />*/}
           <Route path="/products" element={isAuthenticated ? <EcommerceProductsPage /> : <Navigate to="/sign-in" />} />
           <Route path="/users" element={isAuthenticated ? <UserListPage /> : <Navigate to="/sign-in" />} />
+          <Route path="/transactions" element={isAuthenticated ? <TransactionsPage /> : <Navigate to="/sign-in" />} />
         </Routes>
       </BrowserRouter>
     </Flowbite>

@@ -20,6 +20,7 @@ const BASE_URL = `http://localhost:5000`;
 
 const ExampleSidebar: FC = function () {
   const [currentPage, setCurrentPage] = useState("");
+  const [currentUser, setCurrentUser] = useState<{ name: string; email: string; joinDate: string } | null>(null);
 
   useEffect(() => {
     const newPage = window.location.pathname;
@@ -30,32 +31,17 @@ const ExampleSidebar: FC = function () {
   
   const history = useNavigate();
   
-  const [userInfo, setUserInfo] = useState<any>(null);
 
-useEffect(() => {
-  const fetchUserInfo = async () => {
-    try {
-      const userId = localStorage.getItem('userId');
-      if (!userId) return;
+  useEffect(() => {
+    // Retrieve user information from localStorage
+    const currentUserData = localStorage.getItem('currentUser');
 
-      const response = await axios.get(`${BASE_URL}/user/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-
-      if (response.status === 200) {
-        setUserInfo(response.data);
-      } else {
-        console.error('Failed to fetch user info:', response);
-      }
-    } catch (error) {
-      console.error('Error fetching user info:', error);
+    if (currentUserData) {
+      // Parse JSON string to object
+      const parsedCurrentUser = JSON.parse(currentUserData);
+      setCurrentUser(parsedCurrentUser);
     }
-  };
-
-  fetchUserInfo();
-}, []);
+  }, []);
 
   
 
@@ -71,7 +57,7 @@ useEffect(() => {
     }
   };
 
-  console.log(userInfo);
+  console.log(currentUser);
   
 
   return (
@@ -89,16 +75,16 @@ useEffect(() => {
           </form>
           <Sidebar.Items>
             <Sidebar.ItemGroup>
-  {userInfo && ( // Check if userInfo is not null before rendering
+  {currentUser && ( // Check if userInfo is not null before rendering
     <Sidebar.Item>
       <div className="flex flex-wrap items-center gap-2">
         <div>
           <Avatar img="/images/users/roberta-casas-2x.png" size="lg" rounded />
         </div>
         <div className="space-y-1 font-medium dark:text-white">
-          <div>{userInfo.name}</div>
+          <div>User:</div>
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            Joined in August 2014 {userInfo.email}
+             {currentUser.email}
           </div>
         </div>
       </div>
@@ -138,10 +124,10 @@ useEffect(() => {
                 Customers
               </Sidebar.Item>
               <Sidebar.Item
-                href="/users"
+                href="/transactions"
                 icon={HiOutlineCash}
                 className={
-                  "/users" === currentPage
+                  "/transactions" === currentPage
                     ? "bg-gray-100 dark:bg-gray-700"
                     : ""
                 }
@@ -150,7 +136,7 @@ useEffect(() => {
               </Sidebar.Item>
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>
-              <Sidebar.Item
+              {/*<Sidebar.Item
                 href="https://github.com/themesberg/flowbite-react/"
                 icon={HiClipboard}
               >
@@ -167,7 +153,7 @@ useEffect(() => {
                 icon={HiInformationCircle}
               >
                 Help
-              </Sidebar.Item>
+              </Sidebar.Item>*/}
       <div onClick={handleLogout} style={{ cursor: 'pointer' }}>
         <Sidebar.Item icon={HiLogout}>
           Sign out

@@ -10,10 +10,8 @@ import { useNavigate } from 'react-router-dom';
 const BASE_URL = `http://localhost:5000`;
 
 const SignInPage: FC = function () {
-  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const history = useNavigate();
 
   const handleLogin = async () => {
@@ -28,9 +26,17 @@ const SignInPage: FC = function () {
   
       if (response.ok) {
         // Login successful
-        const { token, _id } = await response.json(); // Assuming the _id is returned by the server
+        const { token, _id, name, createdAt } = await response.json(); // Assuming the _id, name, and createdAt are returned by the server
+  
+        // Assuming createdAt is in a standard ISODate format
+        const joinDate = new Date(createdAt).toDateString();
+  
         localStorage.setItem('token', token);
-        localStorage.setItem('userId', _id); // Storing _id in local storage
+        localStorage.setItem(
+          'currentUser',
+          JSON.stringify({ name, email, joinDate })
+        );
+  
         console.log("logged in, token: ", token,"id: ", _id);
         // Wait for token to be set
         await new Promise(resolve => setTimeout(resolve, 500));
@@ -48,17 +54,20 @@ const SignInPage: FC = function () {
   };
   
   
+  
+  
 
   return (
     <div className="flex flex-col items-center justify-center px-6 lg:h-screen lg:gap-y-12">
       <div className="my-6 flex items-center gap-x-1 lg:my-0">
         <img
-          alt="Flowbite logo"
-          src="https://flowbite.com/docs/images/logo.svg"
+          alt=""
+          src="images/business-report.png"
+          /*src="https://flowbite.com/docs/images/logo.svg"*/
           className="mr-3 h-12"
         />
         <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
-          DashBoard
+          FastDash
         </span>
       </div>
       <Card className="max-w-md mx-auto w-full"> {/* Adjusted max-width and centered */}

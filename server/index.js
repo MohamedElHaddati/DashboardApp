@@ -12,6 +12,7 @@ import { router as supplierRoutes } from "./routes/supplier.js";
 import { router as warehouseRoutes } from "./routes/warehouse.js";
 import { router as employeeRoutes } from "./routes/employee.js";
 import { router as customerRoutes } from "./routes/customer.js";
+import { router as transactionRoutes } from "./routes/transaction.js";
 // Below are unfinished controllers as there are multiple relations between the db entities
 //import { router as orderRoutes } from "./routes/order.js";
 //import { router as saleRoutes } from "./routes/sale.js";
@@ -58,6 +59,7 @@ app.use("/supplier", supplierRoutes);
 app.use("/warehouse", warehouseRoutes);
 app.use("/employee", employeeRoutes);
 app.use("/customer", customerRoutes);
+app.use("/transaction", transactionRoutes);
 //app.use('/order', orderRoutes);
 //app.use('/transfer', transferRoutes);
 //app.use('/sale', saleRoutes);

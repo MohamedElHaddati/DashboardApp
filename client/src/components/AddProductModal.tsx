@@ -3,50 +3,54 @@ import { FC, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import {  HiUpload } from "react-icons/hi";
 
-const AddUserModal: FC = function () {
+const AddProductModal: FC = function () {
     const [isOpen, setOpen] = useState(false);
     const [productName, setProductName] = useState('');
     const [productBrand, setProductBrand] = useState('');
-    const [productCategorie, setProductCategorie] = useState('');
+    const [productCategory, setProductCategory] = useState('');
     const [productPrice, setProductPrice] = useState('');
     const [productDescription, setProductDescription] = useState('');
+
     
 
   
     const handleAdd = async () => {
-        console.log();
-        
-          try {
-            const response = await fetch('http://localhost:5000/product', {
+      console.log(productName, productBrand, productCategory, productPrice, productDescription);
+      
+      try {
+          const response = await fetch('http://localhost:5000/product', {
               method: 'POST',
               headers: {  
-                'Content-Type': 'application/json',
+                  'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                name: productName,
-                brand: productBrand,
-                categorie: productCategorie,
-                price: productPrice,
-                description: productDescription
+                  name: productName,
+                  category: productCategory,
+                  description: productDescription,
+                  brand: productBrand,
+                  price: parseFloat(productPrice)
               }),
-            });
-            console.log(response);
-            
-            if (!response.ok) {
-              throw new Error('Failed to add data');
-            }
-            const newItem = await response.json();
-            setProducts([...products, newItem]);
-            setProductName('');
-            setProductBrand('');
-            setProductCategorie('');
-            setProductPrice('');
-            setProductDescription('');
-          } catch (error) {
-            setError(error);
-            console.error(error)
+          });
+  
+          console.log(response);
+  
+          if (!response.ok) {
+              throw new Error('Failed to add product');
           }
-        };
+  
+          const newItem = await response.json();
+          setProducts([...products, newItem]);
+          setProductName('');
+          setProductBrand('');
+          setProductCategorie('');
+          setProductPrice('');
+          setProductDescription('');
+      } catch (error) {
+          setError(error);
+          console.error(error);
+      }
+  };
+  
     return (
       <>
         <Button color="primary" onClick={() => setOpen(!isOpen)}>
@@ -67,34 +71,42 @@ const AddUserModal: FC = function () {
                   name="productName"
                   placeholder='Apple iMac 27"'
                   className="mt-1"
+                  value={productName} // Add this line
+                  onChange={(e) => setProductName(e.target.value)}
                 />
               </div>
               <div>
-                <Label htmlFor="category">Category</Label>
+                <Label htmlFor="productCategory">Category</Label>
                 <TextInput
-                  id="category"
-                  name="category"
+                  id="productCategory"
+                  name="productCategory"
                   placeholder="Electronics"
                   className="mt-1"
+                  value={productCategory}
+                  onChange={(e) => setProductCategory(e.target.value)}
                 />
               </div>
               <div>
-                <Label htmlFor="brand">Brand</Label>
+                <Label htmlFor="productBrand">Brand</Label>
                 <TextInput
-                  id="brand"
-                  name="brand"
+                  id="productBrand"
+                  name="productBrand"
                   placeholder="Apple"
                   className="mt-1"
+                  value={productBrand}
+                  onChange={(e) => setProductBrand(e.target.value)}
                 />
               </div>
               <div>
-                <Label htmlFor="price">Price</Label>
+                <Label htmlFor="productPrice">Price</Label>
                 <TextInput
-                  id="price"
-                  name="price"
+                  id="productPrice"
+                  name="productPrice"
                   type="number"
                   placeholder="$2300"
                   className="mt-1"
+                  value={productPrice}
+                  onChange={(e) => setProductPrice(e.target.value)}
                 />
               </div>
               <div className="lg:col-span-2">
@@ -105,6 +117,8 @@ const AddUserModal: FC = function () {
                   placeholder="e.g. 3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to 5.0GHz, Ram 16 GB DDR4 2300Mhz"
                   rows={6}
                   className="mt-1"
+                  value={productDescription}
+                  onChange={(e) => setProductDescription(e.target.value)}
                 />
               </div>
               <div className="lg:col-span-2">
@@ -140,4 +154,4 @@ const AddUserModal: FC = function () {
   };
 
 
-  export default AddUserModal
+  export default AddProductModal
