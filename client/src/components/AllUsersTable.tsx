@@ -94,8 +94,8 @@ const AllUsersTable: FC = function () {
   if (!users) return <div>No data available</div>;
 
 
-
     return (
+
 
 
 <>
@@ -104,13 +104,7 @@ const AllUsersTable: FC = function () {
 
       <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
         <Table.Head className="bg-gray-100 dark:bg-gray-700">
-          <Table.HeadCell>
-            <Label htmlFor="select-all" className="sr-only">
-              Select all
-            </Label>
-            <Checkbox id="select-all" name="select-all" />
-          </Table.HeadCell>
-          <Table.HeadCell>Name</Table.HeadCell>
+          <Table.HeadCell className="text-center">Name</Table.HeadCell>
           <Table.HeadCell>Position</Table.HeadCell>
           <Table.HeadCell>Address</Table.HeadCell>
           <Table.HeadCell>Id</Table.HeadCell>
@@ -119,18 +113,10 @@ const AllUsersTable: FC = function () {
         <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
           {users.map((user) => (
             <Table.Row key={user._id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
-            <Table.Cell className="w-4 p-4">
-              <div className="flex items-center">
-                <Checkbox aria-describedby="checkbox-1" id="checkbox-1" />
-                <label htmlFor="checkbox-1" className="sr-only">
-                  checkbox
-                </label>
-              </div>
-            </Table.Cell>
             <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
               <img
                 className="h-10 w-10 rounded-full"
-                src="/images/users/neil-sims.png"
+                src="/images/user.png"
                 alt="Neil Sims avatar"
               />
               <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
@@ -154,44 +140,41 @@ const AllUsersTable: FC = function () {
               </div>
             </Table.Cell>
             <Table.Cell>
-               <div className="flex items-center gap-x-3 whitespace-nowrap">
-              
-      
-      <Button color="failure" onClick={() => toggleModal(user._id)}>
-        <div className="flex items-center gap-x-0">
-          <HiTrash className="text-lg" />
-          Delete
-        </div>
-      </Button>
-      <Modal onClose={() => toggleModal(user._id)} show={deleteModals[user._id]} size="md">
-        <Modal.Header className="px-6 pt-6 pb-0">
-          <span className="sr-only">Delete user</span>
-        </Modal.Header>
-        <Modal.Body className="px-6 pt-0 pb-6">
-          <div className="flex flex-col items-center gap-y-6 text-center">
-            <HiOutlineExclamationCircle className="text-7xl text-red-500" />
-            <p className="text-xl text-gray-500">
-              Are you sure you want to delete this user?
-            </p>
-            <div className="flex items-center gap-x-3">
-              <Button color="failure" onClick={() => {
-                setOpen(false)
-                 handleDelete(user._id)
-              }
-                
-                }>
-                Yes, I'm sure
-              </Button>
-              <Button color="gray" onClick={() => toggleModal(user._id)}>
-                No, cancel
-              </Button>
-            </div>
+  <div className="flex items-center gap-x-3 whitespace-nowrap">
+    <Button color="failure" onClick={() => toggleModal(user._id)}>
+      <div className="flex items-center gap-x-1">
+        <HiTrash className="text-lg" />
+        <span>Delete</span>
+      </div>
+    </Button>
+    <Modal onClose={() => toggleModal(user._id)} show={deleteModals[user._id]} size="md">
+      <Modal.Header className="px-6 pt-6 pb-0">
+        <span className="sr-only">Delete user</span>
+      </Modal.Header>
+      <Modal.Body className="px-6 pt-0 pb-6">
+        <div className="flex flex-col items-center gap-y-6 text-center">
+          <HiOutlineExclamationCircle className="text-7xl text-red-500" />
+          <p className="text-xl text-gray-500">
+            Are you sure you want to delete this user?
+          </p>
+          <div className="flex items-center gap-x-3">
+            <Button color="failure" onClick={() => {
+              setOpen(false);
+              handleDelete(user._id);
+            }}>
+              Yes, I'm sure
+            </Button>
+            <Button color="gray" onClick={() => toggleModal(user._id)}>
+              No, cancel
+            </Button>
           </div>
-        </Modal.Body>
-      </Modal>
-              </div>
-              <EditUserModal user={user} onUpdate={(updatedUser) => handleUpdate(updatedUser)} />
-            </Table.Cell>
+        </div>
+      </Modal.Body>
+    </Modal>
+    <EditUserModal user={user} onUpdate={(updatedUser) => handleUpdate(updatedUser)} />
+  </div>
+</Table.Cell>
+
           </Table.Row>
           ))}
          

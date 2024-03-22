@@ -11,6 +11,65 @@ const AddProductModal: FC = function () {
     const [productPrice, setProductPrice] = useState('');
     const [productDescription, setProductDescription] = useState('');
 
+    const handleAddProduct = async (newProduct) => {
+      try {
+        const response = await fetch('http://localhost:5000/product', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newProduct),
+        });
+        if (!response.ok) {
+          throw new Error('Failed to add product');
+        }
+        fetchData(); // Refresh product list after adding a new product
+      } catch (error) {
+        setError(error);
+      }
+    };
+
+    const handleAdd2 = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/product', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: productName,
+            category: productCategory,
+            description: productDescription,
+            brand: productBrand,
+            price: parseFloat(productPrice),
+          }),
+        });
+    
+        if (!response.ok) {
+          throw new Error('Failed to add product');
+        }
+    
+        const newProductData = await response.json();
+    
+        // Trigger fetchData function from AllProductsTable component to update the product list
+        fetchData();
+
+        // Soft refresh by refetching product data after adding a new product
+        window.location.reload();
+    
+        // Reset form fields and close modal
+        setProductName('');
+        setProductBrand('');
+        setProductCategory('');
+        setProductPrice('');
+        setProductDescription('');
+        setOpen(false);
+      } catch (error) {
+        setError(error);
+        console.error(error);
+      }
+    };
+
     
 
   
@@ -49,6 +108,7 @@ const AddProductModal: FC = function () {
           setError(error);
           console.error(error);
       }
+      
   };
   
     return (
@@ -103,7 +163,7 @@ const AddProductModal: FC = function () {
                   id="productPrice"
                   name="productPrice"
                   type="number"
-                  placeholder="$2300"
+                  placeholder="15999 MAD"
                   className="mt-1"
                   value={productPrice}
                   onChange={(e) => setProductPrice(e.target.value)}
@@ -121,6 +181,7 @@ const AddProductModal: FC = function () {
                   onChange={(e) => setProductDescription(e.target.value)}
                 />
               </div>
+              {/* 
               <div className="lg:col-span-2">
                 <div className="flex w-full items-center justify-center">
                   <label className="flex h-32 w-full cursor-pointer flex-col rounded border-2 border-dashed border-gray-300 hover:bg-gray-50 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-700">
@@ -136,13 +197,14 @@ const AddProductModal: FC = function () {
                     <input type="file" className="hidden" />
                   </label>
                 </div>
-              </div>
+              </div>*/}
             </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
         <Button color="primary" onClick={() => {
-                handleAdd()
+                handleAdd2()
+
                 setOpen(false)
             }}>
             Add product

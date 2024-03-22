@@ -45,7 +45,7 @@ import {
                 <Breadcrumb.Item>List</Breadcrumb.Item>
               </Breadcrumb>
               <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                All users
+                All Transactions
               </h1>
             </div>
             <div className="sm:flex">
@@ -58,7 +58,7 @@ import {
                     <TextInput
                       id="users-search"
                       name="users-search"
-                      placeholder="Search for users"
+                      placeholder="Search for transactions"
                     />
                   </div>
                 </form>
@@ -94,7 +94,6 @@ import {
                 </div>
               </div>
               <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
-                <AddUserModal />
                 <Button color="gray">
                   <div className="flex items-center gap-x-3">
                     <HiDocumentDownload className="text-xl" />

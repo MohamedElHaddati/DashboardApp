@@ -37,29 +37,29 @@ const AllTransactionsTable: FC = function () {
   }, []);
   console.log(transactions);
 
-  const Badge = ({ color, children }) => (
-    <span style={{ color }}>{children}</span>
- );
-
- const TransactionStatusBadge = ({ status }) => {
+  const TransactionStatusBadge = ({ status }) => {
     let badgeColor = '';
 
     switch (status) {
-      case 'Failed':
-        badgeColor = 'failure';
-        break;
-      case 'Completed':
-        badgeColor = 'success';
-        break;
-      case 'In Progress':
-        badgeColor = 'in progress';
-        break;
-      default:
-        badgeColor = 'default';
+        case 'Failed':
+            badgeColor = 'bg-red-100 text-red-800';
+            break;
+        case 'Completed':
+            badgeColor = 'bg-green-100 text-green-800';
+            break;
+        case 'In Progress':
+            badgeColor = 'bg-purple-100 text-purple-800';
+            break;
+        default:
+            badgeColor = 'bg-blue-100 text-blue-800';
     }
 
-    return <Badge color={badgeColor}>{status}</Badge>;
- };
+    return (
+        <span className={`text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:text-gray-300 ${badgeColor}`}>
+            {status}
+        </span>
+    );
+};
 
 
 
@@ -90,8 +90,8 @@ const AllTransactionsTable: FC = function () {
                     
                     <Table.Row key={transaction.date} >
                     <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
-                    {transaction.type} to {transaction.party}
-                      <span className="font-semibold">#00910</span>
+                    {transaction.type} from {transaction.party}
+                      <span className="font-semibold"># {transaction.id}</span>
                     </Table.Cell>
                     <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
                     {transaction.date}

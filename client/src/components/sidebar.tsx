@@ -79,7 +79,7 @@ const ExampleSidebar: FC = function () {
     <Sidebar.Item>
       <div className="flex flex-wrap items-center gap-2">
         <div>
-          <Avatar img="/images/users/roberta-casas-2x.png" size="lg" rounded />
+          <Avatar img="/images/profile-user.png" size="lg" rounded />
         </div>
         <div className="space-y-1 font-medium dark:text-white">
           <div>User:</div>
@@ -121,7 +121,7 @@ const ExampleSidebar: FC = function () {
                     : ""
                 }
               >
-                Customers
+                Users
               </Sidebar.Item>
               <Sidebar.Item
                 href="/transactions"

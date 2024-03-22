@@ -16,6 +16,7 @@ const AllProductsTable: FC = function () {
   const [isOpen, setOpen] = useState(false);
   const [deleteModals, setDeleteModals] = useState({});
   
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +36,24 @@ const AllProductsTable: FC = function () {
 
     fetchData();
   }, []);
+
+  const handleAddProduct = async (newProduct) => {
+    try {
+      const response = await fetch('http://localhost:5000/product', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newProduct),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add product');
+      }
+      fetchData(); // Refresh product list after adding a new product
+    } catch (error) {
+      setError(error);
+    }
+  };
 
   const toggleModal = (id) => {
     setDeleteModals(prevState => ({
@@ -107,7 +126,7 @@ const AllProductsTable: FC = function () {
           <span className="sr-only">Toggle selected</span>
           <Checkbox />
         </Table.HeadCell>
-        <Table.HeadCell>Product Name/Brand</Table.HeadCell>
+        <Table.HeadCell>Product Name/Brand/Category</Table.HeadCell>
         <Table.HeadCell>Description</Table.HeadCell>
         <Table.HeadCell>ID</Table.HeadCell>
         <Table.HeadCell>Price</Table.HeadCell>
@@ -125,6 +144,9 @@ const AllProductsTable: FC = function () {
             </div>
             <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
               {product.brand}
+            </div>
+            <div className="text-xs font-thin text-gray-500 dark:text-gray-400">
+              {product.category}
             </div>
           </Table.Cell>
           <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
