@@ -9,7 +9,7 @@ import {
     TextInput,
   } from "flowbite-react";
   import type { FC } from "react";
-  import { useState } from "react";
+  import { useEffect, useState } from "react";
   import {
     HiChevronLeft,
     HiChevronRight,
@@ -27,6 +27,7 @@ import {
   import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
   import AllUsersTable from "../../components/AllUsersTable";
   import AddUserModal from "../../components/AddUserModal";
+import useFetchTransactions from "../../components/useFetchTransactions";
   
   const UserListPage: FC = function () {
     return (
@@ -266,55 +267,59 @@ import {
       </>
     );
   };
+
+
+
+
+  const Pagination = () => {
+    const [currentPage, setCurrentPage] = useState(() => {
+      const storedPage = localStorage.getItem("currentPage");
+      return storedPage ? parseInt(storedPage) : 1;
+    });
+    const { totalPages } = useFetchTransactions(currentPage);
   
-  export const Pagination: FC = function () {
+    const handlePrevPage = () => {
+      const prevPage = Math.max(currentPage - 1, 1);
+      setCurrentPage(prevPage);
+      localStorage.setItem("currentPage", prevPage.toString());
+      window.location.reload(); // Reload the page
+    };
+  
+    const handleNextPage = () => {
+      const nextPage = Math.min(currentPage + 1, totalPages);
+      setCurrentPage(nextPage);
+      localStorage.setItem("currentPage", nextPage.toString());
+      window.location.reload(); // Reload the page
+    };
+  
     return (
       <div className="sticky right-0 bottom-0 w-full items-center border-t border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex sm:justify-between">
         <div className="mb-4 flex items-center sm:mb-0">
-          <a
-            href="#"
+          <button
+            onClick={handlePrevPage}
             className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            disabled={currentPage === 1}
           >
-            <span className="sr-only">Previous page</span>
             <HiChevronLeft className="text-2xl" />
-          </a>
-          <a
-            href="#"
-            className="mr-2 inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          </button>
+          <button
+            onClick={handleNextPage}
+            className="ml-2 inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            disabled={currentPage === totalPages}
           >
-            <span className="sr-only">Next page</span>
             <HiChevronRight className="text-2xl" />
-          </a>
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            Showing&nbsp;
-            <span className="font-semibold text-gray-900 dark:text-white">
-              1-20
-            </span>
-            &nbsp;of&nbsp;
-            <span className="font-semibold text-gray-900 dark:text-white">
-              2290
-            </span>
-          </span>
+          </button>
         </div>
         <div className="flex items-center space-x-3">
-          <a
-            href="#"
-            className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary-700 py-2 px-3 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-          >
-            <HiChevronLeft className="mr-1 text-base" />
-            Previous
-          </a>
-          <a
-            href="#"
-            className="inline-flex flex-1 items-center justify-center rounded-lg bg-primary-700 py-2 px-3 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-          >
-            Next
-            <HiChevronRight className="ml-1 text-base" />
-          </a>
+          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+            Page {currentPage} of {totalPages}
+          </span>
         </div>
       </div>
     );
   };
+
+
   
   export default UserListPage;
   

@@ -6,6 +6,8 @@ import {
   Table,
 } from "flowbite-react";
 import { useEffect, type FC, useState } from "react";
+import { HiOutlineExclamationCircle, HiTrash } from "react-icons/hi";
+import EditProductModal from "./EditProductModal";
 
 const AllProductsTable: FC = function () {
 
@@ -122,10 +124,11 @@ const AllProductsTable: FC = function () {
       
     <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
       <Table.Head className="bg-gray-100 dark:bg-gray-700">
+        {/*
         <Table.HeadCell>
           <span className="sr-only">Toggle selected</span>
           <Checkbox />
-        </Table.HeadCell>
+    </Table.HeadCell>*/}
         <Table.HeadCell>Product Name/Brand/Category</Table.HeadCell>
         <Table.HeadCell>Description</Table.HeadCell>
         <Table.HeadCell>ID</Table.HeadCell>
@@ -135,9 +138,9 @@ const AllProductsTable: FC = function () {
       <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
         {products.map((product) => (
         <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
-          <Table.Cell className="w-4 p-4">
+          {/*<Table.Cell className="w-4 p-4">
             <Checkbox />
-          </Table.Cell>
+        </Table.Cell>*/}
           <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
             <div className="text-base font-semibold text-gray-900 dark:text-white">
               {product.name}
@@ -159,10 +162,39 @@ const AllProductsTable: FC = function () {
             {product.price} MAD
           </Table.Cell>
           <Table.Cell className="space-x-2 whitespace-nowrap p-4">
-            <div className="flex items-center gap-x-3">
-              {/*<EditProductModal />
-              <DeleteProductModal />*/}
-            </div>
+            <div className="flex items-center gap-x-3 whitespace-nowrap">
+    <Button color="failure" onClick={() => toggleModal(product._id)}>
+      <div className="flex items-center gap-x-1">
+        <HiTrash className="text-lg" />
+        <span>Delete</span>
+      </div>
+    </Button>
+    <Modal onClose={() => toggleModal(product._id)} show={deleteModals[product._id]} size="md">
+      <Modal.Header className="px-6 pt-6 pb-0">
+        <span className="sr-only">Delete product</span>
+      </Modal.Header>
+      <Modal.Body className="px-6 pt-0 pb-6">
+        <div className="flex flex-col items-center gap-y-6 text-center">
+          <HiOutlineExclamationCircle className="text-7xl text-red-500" />
+          <p className="text-xl text-gray-500">
+            Are you sure you want to delete this product?
+          </p>
+          <div className="flex items-center gap-x-3">
+            <Button color="failure" onClick={() => {
+              setOpen(false);
+              handleDelete(product._id);
+            }}>
+              Yes, I'm sure
+            </Button>
+            <Button color="gray" onClick={() => toggleModal(product._id)}>
+              No, cancel
+            </Button>
+          </div>
+        </div>
+      </Modal.Body>
+    </Modal>
+    <EditProductModal product={product} onUpdate={(updatedProduct) => handleUpdate(updatedProduct)} />
+  </div>
           </Table.Cell>
         </Table.Row>
         ))}

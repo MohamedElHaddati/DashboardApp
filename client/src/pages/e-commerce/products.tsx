@@ -51,36 +51,6 @@ const EcommerceProductsPage: FC = function () {
           </div>
           <div className="block items-center sm:flex">
             <SearchForProducts />
-            <div className="hidden space-x-1 border-l border-gray-100 pl-2 dark:border-gray-700 md:flex">
-              <a
-                href="#"
-                className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                <span className="sr-only">Configure</span>
-                <HiCog className="text-2xl" />
-              </a>
-              <a
-                href="#"
-                className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                <span className="sr-only">Delete</span>
-                <HiTrash className="text-2xl" />
-              </a>
-              <a
-                href="#"
-                className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                <span className="sr-only">Purge</span>
-                <HiExclamationCircle className="text-2xl" />
-              </a>
-              <a
-                href="#"
-                className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                <span className="sr-only">Settings</span>
-                <HiDotsVertical className="text-2xl" />
-              </a>
-            </div>
             <div className="flex w-full items-center sm:justify-end">
               <AddProductModal />
             </div>

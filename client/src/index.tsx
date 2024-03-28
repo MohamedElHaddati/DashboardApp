@@ -23,7 +23,6 @@ const isAuthenticated = localStorage.getItem('token');
 const root = createRoot(container);
 
 root.render(
-  <StrictMode>
     <Flowbite theme={{ theme }}>
       <BrowserRouter>
         <Routes>
@@ -36,5 +35,4 @@ root.render(
         </Routes>
       </BrowserRouter>
     </Flowbite>
-  </StrictMode>
 );

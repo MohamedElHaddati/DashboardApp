@@ -13,9 +13,37 @@ export const createUser = async (req, res) => {
 // Get all users
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find();
-    res.status(200).json(users);
+    // Extract pagination parameters from query string
+    const { page = 1, limit = 10 } = req.query;
+
+    // Convert page and limit to integers
+    const pageNumber = parseInt(page);
+    const limitNumber = parseInt(limit);
+
+    // Calculate the number of documents to skip
+    const skip = (pageNumber - 1) * limitNumber;
+
+    // Fetch users from the database with pagination
+    const users = await User.find().skip(skip).limit(limitNumber);
+
+    // Return the paginated users
+    res.json(users);
   } catch (error) {
+    // Handle errors
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Function to get the latest 5 users sorted by newest
+export const getLatestUsers = async (req, res) => {
+  try {
+    // Fetch latest 5 users from the database sorted by newest
+    const users = await User.find().sort({ createdAt: -1 }).limit(5);
+
+    // Return the latest users
+    res.json(users);
+  } catch (error) {
+    // Handle errors
     res.status(500).json({ message: error.message });
   }
 };

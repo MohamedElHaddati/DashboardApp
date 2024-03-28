@@ -104,8 +104,8 @@ const AllUsersTable: FC = function () {
 
       <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
         <Table.Head className="bg-gray-100 dark:bg-gray-700">
-          <Table.HeadCell className="text-center">Name</Table.HeadCell>
-          <Table.HeadCell>Position</Table.HeadCell>
+          <Table.HeadCell className="pl-20">Name</Table.HeadCell>
+          {/*<Table.HeadCell>Email</Table.HeadCell>*/ }
           <Table.HeadCell>Address</Table.HeadCell>
           <Table.HeadCell>Id</Table.HeadCell>
           <Table.HeadCell>Actions</Table.HeadCell>
@@ -123,16 +123,13 @@ const AllUsersTable: FC = function () {
                 <div className="text-base font-semibold text-gray-900 dark:text-white">
                   {user.name}
                 </div>
-                <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
+            <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
                   {user.email}
                 </div>
               </div>
             </Table.Cell>
             <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-              user
-            </Table.Cell>
-            <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-              Address
+              {user.address}
             </Table.Cell>
             <Table.Cell className="whitespace-nowrap p-4 text-base font-normal text-gray-900 dark:text-white">
               <div className="flex items-center">

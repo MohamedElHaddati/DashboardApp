@@ -7,6 +7,8 @@ interface Product {
   name: string;
   brand: string;
   price: number;
+  category: string;
+  description: string;
 }
 
 interface EditModalProps {
@@ -20,7 +22,9 @@ const EditProductModal: React.FC<EditModalProps> = ({ product, onUpdate }) => {
     _id: product._id,
     name: product.name,
     brand: product.brand,
-    price: product.price
+    price: product.price,
+    category: product.category,
+    description: product.description
   });
 
   const handleEdit = () => {
@@ -54,8 +58,8 @@ const EditProductModal: React.FC<EditModalProps> = ({ product, onUpdate }) => {
     <>
       <Button color="primary" onClick={() => setOpen(true)}>
         <div className="flex items-center gap-x-0">
-          <HiOutlinePencilAlt className="text-lg" />
-          Edit product
+          <HiOutlinePencilAlt className="text-lg pr-1" />
+          Edit
         </div>
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen}>
@@ -98,6 +102,30 @@ const EditProductModal: React.FC<EditModalProps> = ({ product, onUpdate }) => {
                   type='number'
                   value={editedProduct.price}
                   onChange={e => setEditedProduct({ ...editedProduct, price: parseFloat(e.target.value) })}
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="category">Category</Label>
+              <div className="mt-1">
+                <TextInput
+                  id="category"
+                  name="category"
+                  placeholder="example@company.com"
+                  value={editedProduct.category}
+                  onChange={e => setEditedProduct({ ...editedProduct, category: e.target.value })}
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="description">Description</Label>
+              <div className="mt-1">
+                <TextInput
+                  id="description"
+                  name="description"
+                  placeholder="example@company.com"
+                  value={editedProduct.description}
+                  onChange={e => setEditedProduct({ ...editedProduct, description: e.target.value })}
                 />
               </div>
             </div>

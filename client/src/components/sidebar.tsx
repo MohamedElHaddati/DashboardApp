@@ -14,6 +14,7 @@ import {
   HiSearch,
   HiShoppingBag,
   HiUsers,
+  HiTrendingUp,
 } from "react-icons/hi";
 
 const BASE_URL = `http://localhost:5000`;
@@ -133,6 +134,17 @@ const ExampleSidebar: FC = function () {
                 }
               >
                 Transactions
+              </Sidebar.Item>
+              <Sidebar.Item
+                href="/transactions"
+                icon={HiTrendingUp}
+                className={
+                  "/ai-analysis" === currentPage
+                    ? "bg-gray-100 dark:bg-gray-700"
+                    : ""
+                }
+              >
+                AI Predicitive Analysis
               </Sidebar.Item>
             </Sidebar.ItemGroup>
             <Sidebar.ItemGroup>

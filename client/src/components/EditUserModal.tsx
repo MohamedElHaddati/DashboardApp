@@ -6,6 +6,7 @@ interface User {
   _id: string;
   name: string;
   email: string;
+  address: string;
 }
 
 interface EditModalProps {
@@ -19,6 +20,7 @@ const EditUserModal: React.FC<EditModalProps> = ({ user, onUpdate }) => {
     _id: user._id,
     name: user.name,
     email: user.email,
+    address: user.address,
   });
 
   const handleEdit = () => {
@@ -84,6 +86,19 @@ const EditUserModal: React.FC<EditModalProps> = ({ user, onUpdate }) => {
                   type="email"
                   value={editedUser.email}
                   onChange={e => setEditedUser({ ...editedUser, email: e.target.value })}
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="address">Address</Label>
+              <div className="mt-1">
+                <TextInput
+                  id="address"
+                  name="address"
+                  placeholder="Address"
+                  type="text"
+                  value={editedUser.address}
+                  onChange={e => setEditedUser({ ...editedUser, address: e.target.value })}
                 />
               </div>
             </div>

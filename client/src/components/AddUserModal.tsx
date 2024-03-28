@@ -7,11 +7,12 @@ const AddUserModal: FC = function () {
     const [userName, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
+    const [userAddress, setUserAddress] = useState('');
     
 
   
     const handleAdd = async () => {
-        console.log(userName,userEmail,userPassword);
+        console.log(userName,userEmail,userPassword,userAddress);
         
           try {
             const response = await fetch('http://localhost:5000/user', {
@@ -22,7 +23,8 @@ const AddUserModal: FC = function () {
               body: JSON.stringify({
                   name: userName,
                   email: userEmail,
-                  password: userPassword
+                  password: userPassword,
+                  address: userAddress
               }),
             });
             console.log(response);
@@ -35,6 +37,7 @@ const AddUserModal: FC = function () {
             setUserName('');
             setUserEmail('');
             setUserPassword('');
+            setUserAddress('');
           } catch (error) {
             setError(error);
             console.error(error)
@@ -56,9 +59,9 @@ const AddUserModal: FC = function () {
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
 
               <div>
-                <Label htmlFor="lastName">name</Label>
+                <Label htmlFor="lastName">Name</Label>
                 <div className="mt-1">
-                  <TextInput id="lastName" name="lastName" placeholder="Green"     
+                  <TextInput id="lastName" name="lastName" placeholder="Enter your full name"     
                       onChange={(e) => setUserName(e.target.value)} 
                       value={userName} 
 
@@ -79,15 +82,28 @@ const AddUserModal: FC = function () {
                 </div>
               </div>
               <div>
-                <Label htmlFor="phone">password</Label>
+                <Label htmlFor="phone">Password</Label>
                 <div className="mt-1">
                   <TextInput
                     id="phone"
                     name="phone"
-                    placeholder="e.g., +(12)3456 789"
-                    type="tel"
+                    placeholder="At least 8 characters"
+                    type="password"
                     value={userPassword} 
                     onChange={(e) => setUserPassword(e.target.value)} 
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="address">Address</Label>
+                <div className="mt-1">
+                  <TextInput
+                    id="address"
+                    name="address"
+                    placeholder="Enter your full address"
+                    type="text"
+                    value={userAddress} 
+                    onChange={(e) => setUserAddress(e.target.value)} 
                   />
                 </div>
               </div>

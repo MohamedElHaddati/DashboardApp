@@ -10,15 +10,50 @@ export const createTransaction = async (req, res) => {
   }
 };
 
-// Get all transactions
+// Get all transactions with pagination
 export const getAllTransactions = async (req, res) => {
-  try {
-    const transactions = await Transaction.find();
-    res.status(200).json(transactions);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+    try {
+      const page = parseInt(req.query.page) || 1; // Default page: 1
+      const limit = 10; // Default limit: 10
+      const skip = (page - 1) * limit;
+  
+      const totalCount = await Transaction.countDocuments();
+      const totalPages = Math.ceil(totalCount / limit);
+  
+      const transactions = await Transaction.find()
+        .sort({ createdAt: -1 }) // Sort by newest
+        .skip(skip)
+        .limit(limit);
+  
+      res.status(200).json({
+        transactions,
+        totalPages
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+
+  // Get all transactions without pagination
+export const getAllTransactionsAll = async (req, res) => {
+    try {
+      const transactions = await Transaction.find().sort({ createdAt: -1 }); // Sort by newest
+      res.status(200).json(transactions);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+  
+
+// Get the latest 5 transactions sorted by newest
+export const getLatestTransactions = async (req, res) => {
+    try {
+      const transactions = await Transaction.find().sort({ createdAt: -1 }).limit(5);
+      res.status(200).json(transactions);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
 
 // Get a single transaction by ID
 export const getTransactionById = async (req, res) => {
