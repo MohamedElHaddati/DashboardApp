@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Label, Modal, TextInput } from 'flowbite-react'; // Assuming you're using Flowbite components
+import { Button, Label, Modal, TextInput } from 'flowbite-react'; 
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 
 interface User {
@@ -24,9 +24,6 @@ const EditUserModal: React.FC<EditModalProps> = ({ user, onUpdate }) => {
   });
 
   const handleEdit = () => {
-    // Make PUT request to update user data
-    // You can use fetch or Axios for making the request
-    // Example using fetch:
     fetch(`http://localhost:5000/user/${editedUser._id}`, {
       method: 'PUT',
       headers: {
@@ -41,12 +38,11 @@ const EditUserModal: React.FC<EditModalProps> = ({ user, onUpdate }) => {
         return response.json();
       })
       .then(updatedUserData => {
-        onUpdate(updatedUserData); // Update parent component's state with the updated user data
-        setOpen(false); // Close the modal after successful update
+        onUpdate(updatedUserData);
+        setOpen(false);
       })
       .catch(error => {
         console.error('Error updating user:', error);
-        // Handle error here (e.g., show error message)
       });
   };
 

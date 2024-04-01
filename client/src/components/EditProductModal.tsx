@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Label, Modal, TextInput } from 'flowbite-react'; // Assuming you're using Flowbite components
+import { Button, Label, Modal, TextInput } from 'flowbite-react';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 
 interface Product {
@@ -28,9 +28,6 @@ const EditProductModal: React.FC<EditModalProps> = ({ product, onUpdate }) => {
   });
 
   const handleEdit = () => {
-    // Make PUT request to update product data
-    // You can use fetch or Axios for making the request
-    // Example using fetch:
     fetch(`http://localhost:5000/product/${editedProduct._id}`, {
       method: 'PUT',
       headers: {
@@ -45,12 +42,11 @@ const EditProductModal: React.FC<EditModalProps> = ({ product, onUpdate }) => {
         return response.json();
       })
       .then(updatedProductData => {
-        onUpdate(updatedProductData); // Update parent component's state with the updated product data
-        setOpen(false); // Close the modal after successful update
+        onUpdate(updatedProductData);
+        setOpen(false);
       })
       .catch(error => {
         console.error('Error updating product:', error);
-        // Handle error here (e.g., show error message)
       });
   };
 

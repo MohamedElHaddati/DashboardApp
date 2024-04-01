@@ -1,7 +1,6 @@
 import { Button, Label, Modal, TextInput, Textarea } from "flowbite-react";
 import { FC, useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import {  HiUpload } from "react-icons/hi";
 
 const AddProductModal: FC = function () {
     const [isOpen, setOpen] = useState(false);
@@ -9,68 +8,7 @@ const AddProductModal: FC = function () {
     const [productBrand, setProductBrand] = useState('');
     const [productCategory, setProductCategory] = useState('');
     const [productPrice, setProductPrice] = useState('');
-    const [productDescription, setProductDescription] = useState('');
-
-    const handleAddProduct = async (newProduct) => {
-      try {
-        const response = await fetch('http://localhost:5000/product', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newProduct),
-        });
-        if (!response.ok) {
-          throw new Error('Failed to add product');
-        }
-        fetchData(); // Refresh product list after adding a new product
-      } catch (error) {
-        setError(error);
-      }
-    };
-
-    const handleAdd2 = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/product', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: productName,
-            category: productCategory,
-            description: productDescription,
-            brand: productBrand,
-            price: parseFloat(productPrice),
-          }),
-        });
-    
-        if (!response.ok) {
-          throw new Error('Failed to add product');
-        }
-    
-        const newProductData = await response.json();
-    
-        // Trigger fetchData function from AllProductsTable component to update the product list
-        fetchData();
-
-        // Soft refresh by refetching product data after adding a new product
-        window.location.reload();
-    
-        // Reset form fields and close modal
-        setProductName('');
-        setProductBrand('');
-        setProductCategory('');
-        setProductPrice('');
-        setProductDescription('');
-        setOpen(false);
-      } catch (error) {
-        setError(error);
-        console.error(error);
-      }
-    };
-
-    
+    const [productDescription, setProductDescription] = useState('');    
 
   
     const handleAdd = async () => {
@@ -131,7 +69,7 @@ const AddProductModal: FC = function () {
                   name="productName"
                   placeholder='Apple iMac 27"'
                   className="mt-1"
-                  value={productName} // Add this line
+                  value={productName}
                   onChange={(e) => setProductName(e.target.value)}
                 />
               </div>

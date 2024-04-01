@@ -1,13 +1,7 @@
 import {
-  Badge,
-  Button,
-  Checkbox,
-  Dropdown,
-  Label,
-  Modal,
   Table,
 } from "flowbite-react";
-import { useEffect, type FC, useState } from "react";
+import { type FC} from "react";
 import useFetchTransactions from "./useFetchTransactions";
 
 const AllTransactionsTable: FC = function () {

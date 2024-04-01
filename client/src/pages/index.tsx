@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Badge, Button, Card, Dropdown, Table, useTheme } from "flowbite-react";
+import { Table, useTheme } from "flowbite-react";
 import { useEffect, type FC, useState, useRef } from "react";
 import Chart from "react-apexcharts";
 import NavbarSidebarLayout from "../layouts/navbar-sidebar";
@@ -23,115 +23,72 @@ const DashboardPage: FC = function () {
 };
 
 
-const options = {
-  series: [
-    {
-      name: "Income",
-      color: "#31C48D",
-      data: ["1420", "1620", "1820", "1420", "1650", "2120"],
-    },
-    {
-      name: "Expense",
-      data: ["788", "810", "866", "788", "1100", "1200"],
-      color: "#F05252",
-    }
-  ],
-  chart: {
-    sparkline: {
-      enabled: false,
-    },
-    type: "bar",
-    width: "100%",
-    height: 400,
-    toolbar: {
-      show: false,
-    }
-  },
-  fill: {
-    opacity: 1,
-  },
-  plotOptions: {
-    bar: {
-      horizontal: true,
-      columnWidth: "100%",
-      borderRadiusApplication: "end",
-      borderRadius: 6,
-      dataLabels: {
-        position: "top",
-      },
-    },
-  },
-  legend: {
-    show: true,
-    position: "bottom",
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  tooltip: {
-    shared: true,
-    intersect: false,
-    formatter: function (value) {
-      return value + ' DH'
-    }
-  },
-  xaxis: {
-    labels: {
-      show: true,
-      style: {
-        fontFamily: "Inter, sans-serif",
-        cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
-      },
-      formatter: function(value) {
-        return value + " MAD"
-      }
-    },
-    categories: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    axisTicks: {
-      show: false,
-    },
-    axisBorder: {
-      show: false,
-    },
-  },
-  yaxis: {
-    labels: {
-      show: true,
-      style: {
-        fontFamily: "Inter, sans-serif",
-        cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
-      }
-    }
-  },
-  grid: {
-    show: true,
-    strokeDashArray: 4,
-    padding: {
-      left: 2,
-      right: 2,
-      top: -20
-    },
-  },
-  fill: {
-    opacity: 1,
-  }
-}
-
-
-
 const SalesThisWeek: FC = function () {
+  const [chartData, setChartData] = useState({});
+  const [totalSales, setTotalSales] = useState(0);
+ 
+  useEffect(() => {
+     const fetchData = async () => {
+       try {
+         const response = await fetch("http://localhost:5000/dailystats");
+         if (!response.ok) {
+           throw new Error("Failed to fetch data");
+         }
+         const data = await response.json();
+ 
+         if (Array.isArray(data)) {
+          data.forEach(item => {
+            const dateParts = item.ds.split("/");
+            item.date = new Date(dateParts[2], dateParts[0] - 1, dateParts[1]);
+          });
+  
+          data.sort((a, b) => b.date - a.date);
+  
+          const lastSevenRecords = data.slice(0, 7);
+  
+          const latestSevenDates = lastSevenRecords.map(item => {
+            const formattedDate = item.date;
+            const month = formattedDate.toLocaleString("en-US", { month: "long" });
+            const day = formattedDate.getDate();
+            return `${month} ${day}`;
+          });
+  
+          const latestSevenYValues = lastSevenRecords.map(item => item.y);
+
+          latestSevenDates.reverse();
+          latestSevenYValues.reverse();
+
+          const total = latestSevenYValues.reduce((acc, val) => acc + val, 0);
+          setTotalSales(total);
+  
+ 
+           setChartData({
+             categories: latestSevenDates,
+             series: [{ name: "Revenue", data: latestSevenYValues, color: "#1A56DB" }],
+           });
+         } else {
+           console.error("Invalid response data format:", data);
+         }
+       } catch (error) {
+         console.error("Error fetching data:", error);
+       }
+     };
+ 
+     fetchData();
+  }, []);
+ 
   return (
-    <div className="rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="shrink-0">
-          <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-            4534.87 MAD
-          </span>
-          <h3 className="text-base font-normal text-gray-600 dark:text-gray-400">
-            Sales this week
-          </h3>
-        </div>
-        <div className="flex flex-1 items-center justify-end text-base font-bold text-green-600 dark:text-green-400">
+     <div className="rounded-lg bg-white p-4 shadow dark:bg-gray-800 sm:p-6 xl:p-8">
+       <div className="mb-4 flex items-center justify-between">
+         <div className="shrink-0">
+           <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
+             {totalSales.toFixed(2)} MAD
+           </span>
+           <h3 className="text-base font-normal text-gray-600 dark:text-gray-400">
+             Sales this week
+           </h3>
+         </div>
+         <div className="flex flex-1 items-center justify-end text-base font-bold text-green-600 dark:text-green-400">
           2.5%
           <svg
             className="h-5 w-5"
@@ -146,9 +103,9 @@ const SalesThisWeek: FC = function () {
             />
           </svg>
         </div>
-      </div>
-      <SalesChart />
-      <div className="mt-5 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-gray-700 sm:pt-6">
+       </div>
+       <SalesChart chartData={chartData} />
+       <div className="mt-5 flex items-center justify-between border-t border-gray-200 pt-3 dark:border-gray-700 sm:pt-6">
         <div className="shrink-0">
           <a
             href="/ai-analysis"
@@ -172,11 +129,12 @@ const SalesThisWeek: FC = function () {
           </a>
         </div>
       </div>
-    </div>
+     </div>
   );
-};
+ };
 
-const SalesChart: FC = function () {
+
+ const SalesChart: FC<{ chartData: any }> = function ({ chartData }) {
   const { mode } = useTheme();
   const isDarkTheme = mode === "dark";
 
@@ -184,6 +142,7 @@ const SalesChart: FC = function () {
   const labelColor = isDarkTheme ? "#93ACAF" : "#6B7280";
   const opacityFrom = isDarkTheme ? 0 : 1;
   const opacityTo = isDarkTheme ? 0 : 1;
+
 
   const options: ApexCharts.ApexOptions = {
     stroke: {
@@ -232,15 +191,7 @@ const SalesChart: FC = function () {
       },
     },
     xaxis: {
-      categories: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
-      ],
+      categories: chartData.categories || [],
       labels: {
         style: {
           colors: [labelColor],
@@ -300,13 +251,7 @@ const SalesChart: FC = function () {
       },
     ],
   };
-  const series = [
-    {
-      name: "Revenue",
-      data: [6356, 6218, 5000, 6526, 6356, 6256, 6056],
-      color: "#1A56DB",
-    },
-  ];
+  const series = chartData.series || [];
 
   return <Chart height={420} options={options} series={series} type="area" />;
 };
@@ -415,22 +360,17 @@ const CategoriesPie: FC = function () {
       <div className="flex justify-between mb-3">
         <div className="flex justify-center items-center">
           <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">Products by Category</h5>
-          {/* SVG and tooltip code */}
         </div>
         <div>
-          {/* Download button and tooltip code */}
         </div>
       </div>
       <div>
         <div className="flex" id="devices">
-          {/* Checkboxes for devices */}
         </div>
       </div>
-      {/* Donut Chart */}
       <div className="py-6" id="donut-chart" ref={chartRef}></div>
       <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
         <div className="flex justify-between items-center pt-5">
-          {/* Dropdown and button code */}
         </div>
       </div>
     </div>

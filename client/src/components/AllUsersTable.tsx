@@ -1,7 +1,5 @@
 import {
   Button,
-  Checkbox,
-  Label,
   Modal,
   Table,
 } from "flowbite-react";
@@ -41,7 +39,7 @@ const AllUsersTable: FC = function () {
   const toggleModal = (id) => {
     setDeleteModals(prevState => ({
       ...prevState,
-      [id]: !prevState[id] // Toggle the modal state for the specified user ID
+      [id]: !prevState[id]
     }));
   };
 
@@ -55,7 +53,6 @@ const AllUsersTable: FC = function () {
       if (!response.ok) {
         throw new Error('Failed to delete data');
       }
-      // Remove deleted item from data
       setUsers(users.filter(item => item._id !== id));
     } catch (error) {
       setError(error);
@@ -63,9 +60,6 @@ const AllUsersTable: FC = function () {
   };
 
   const handleUpdate = () => {
-    // Make PUT request to update user data
-    // You can use fetch or Axios for making the request
-    // Example using fetch:
     fetch(`http://localhost:5000/user/${editedUser.id}`, {
       method: 'PUT',
       headers: {
@@ -80,12 +74,11 @@ const AllUsersTable: FC = function () {
         return response.json();
       })
       .then(updatedUserData => {
-        onUpdate(updatedUserData); // Update parent component's state with the updated user data
-        setOpen(false); // Close the modal after successful update
+        onUpdate(updatedUserData); 
+        setOpen(false); 
       })
       .catch(error => {
         console.error('Error updating user:', error);
-        // Handle error here (e.g., show error message)
       });
   };
 
@@ -105,7 +98,6 @@ const AllUsersTable: FC = function () {
       <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
         <Table.Head className="bg-gray-100 dark:bg-gray-700">
           <Table.HeadCell className="pl-20">Name</Table.HeadCell>
-          {/*<Table.HeadCell>Email</Table.HeadCell>*/ }
           <Table.HeadCell>Address</Table.HeadCell>
           <Table.HeadCell>Id</Table.HeadCell>
           <Table.HeadCell>Actions</Table.HeadCell>

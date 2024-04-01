@@ -1,7 +1,5 @@
 import {
   Button,
-  Checkbox,
-  Label,
   Modal,
   Table,
 } from "flowbite-react";
@@ -39,24 +37,6 @@ const AllProductsTable: FC = function () {
     fetchData();
   }, []);
 
-  const handleAddProduct = async (newProduct) => {
-    try {
-      const response = await fetch('http://localhost:5000/product', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newProduct),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to add product');
-      }
-      fetchData(); // Refresh product list after adding a new product
-    } catch (error) {
-      setError(error);
-    }
-  };
-
   const toggleModal = (id) => {
     setDeleteModals(prevState => ({
       ...prevState,
@@ -74,7 +54,6 @@ const AllProductsTable: FC = function () {
       if (!response.ok) {
         throw new Error('Failed to delete data');
       }
-      // Remove deleted item from data
       setProducts(products.filter(item => item._id !== id));
     } catch (error) {
       setError(error);

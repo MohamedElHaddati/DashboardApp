@@ -23,10 +23,8 @@ const SignInPage: FC = function () {
       });
   
       if (response.ok) {
-        // Login successful
-        const { token, _id, name, createdAt } = await response.json(); // Assuming the _id, name, and createdAt are returned by the server
+        const { token, _id, name, createdAt } = await response.json();
   
-        // Assuming createdAt is in a standard ISODate format
         const joinDate = new Date(createdAt).toDateString();
   
         localStorage.setItem('token', token);
@@ -36,11 +34,9 @@ const SignInPage: FC = function () {
         );
   
         console.log("logged in, token: ", token,"id: ", _id);
-        // Wait for token to be set
         await new Promise(resolve => setTimeout(resolve, 500));
         history('/');
       } else {
-        // Login failed
         console.log("error");
         const errorData = await response.json();
         toast.error(errorData.message);

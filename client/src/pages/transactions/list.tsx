@@ -2,14 +2,12 @@
 import {
     Breadcrumb,
     Button,
-    Checkbox,
     Label,
     Modal,
-    Table,
     TextInput,
   } from "flowbite-react";
   import type { FC } from "react";
-  import { useEffect, useState } from "react";
+  import { useState } from "react";
   import {
     HiChevronLeft,
     HiChevronRight,
@@ -19,14 +17,11 @@ import {
     HiExclamationCircle,
     HiHome,
     HiOutlineExclamationCircle,
-    HiOutlinePencilAlt,
-    HiPlus,
     HiTrash,
   } from "react-icons/hi";
   import AllTransactionstable from "../../components/AllTransactionsTable"
   import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
   import AllUsersTable from "../../components/AllUsersTable";
-  import AddUserModal from "../../components/AddUserModal";
 import useFetchTransactions from "../../components/useFetchTransactions";
   
   const UserListPage: FC = function () {
@@ -282,14 +277,14 @@ import useFetchTransactions from "../../components/useFetchTransactions";
       const prevPage = Math.max(currentPage - 1, 1);
       setCurrentPage(prevPage);
       localStorage.setItem("currentPage", prevPage.toString());
-      window.location.reload(); // Reload the page
+      window.location.reload(); 
     };
   
     const handleNextPage = () => {
       const nextPage = Math.min(currentPage + 1, totalPages);
       setCurrentPage(nextPage);
       localStorage.setItem("currentPage", nextPage.toString());
-      window.location.reload(); // Reload the page
+      window.location.reload(); 
     };
   
     return (

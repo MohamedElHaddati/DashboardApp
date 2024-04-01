@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 interface Transaction {
- // Define the structure of a transaction here
 }
 
 interface FetchTransactionsResult {
