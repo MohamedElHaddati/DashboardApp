@@ -1,6 +1,5 @@
 import { Customer } from "../models/Customer.js";
 
-// Create a new customer
 export const createCustomer = async (req, res) => {
   try {
     const newCustomer = await Customer.create(req.body);
@@ -10,7 +9,6 @@ export const createCustomer = async (req, res) => {
   }
 };
 
-// Get all customers
 export const getAllCustomers = async (req, res) => {
   try {
     const customers = await Customer.find();
@@ -20,7 +18,6 @@ export const getAllCustomers = async (req, res) => {
   }
 };
 
-// Get a single customer by ID
 export const getCustomerById = async (req, res) => {
   try {
     const customer = await Customer.findById(req.params.id);
@@ -33,7 +30,6 @@ export const getCustomerById = async (req, res) => {
   }
 };
 
-// Update a customer
 export const updateCustomer = async (req, res) => {
   try {
     const updatedCustomer = await Customer.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -46,7 +42,6 @@ export const updateCustomer = async (req, res) => {
   }
 };
 
-// Delete a customer
 export const deleteCustomer = async (req, res) => {
   try {
     const deletedCustomer = await Customer.findByIdAndDelete(req.params.id);

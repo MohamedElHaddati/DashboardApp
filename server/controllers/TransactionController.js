@@ -1,6 +1,5 @@
 import { Transaction } from "../models/Transaction.js";
 
-// Create a new transaction
 export const createTransaction = async (req, res) => {
   try {
     const newTransaction = await Transaction.create(req.body);
@@ -10,18 +9,17 @@ export const createTransaction = async (req, res) => {
   }
 };
 
-// Get all transactions with pagination
 export const getAllTransactions = async (req, res) => {
     try {
-      const page = parseInt(req.query.page) || 1; // Default page: 1
-      const limit = 10; // Default limit: 10
+      const page = parseInt(req.query.page) || 1; 
+      const limit = 10; 
       const skip = (page - 1) * limit;
   
       const totalCount = await Transaction.countDocuments();
       const totalPages = Math.ceil(totalCount / limit);
   
       const transactions = await Transaction.find()
-        .sort({ createdAt: -1 }) // Sort by newest
+        .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit);
   
@@ -34,10 +32,9 @@ export const getAllTransactions = async (req, res) => {
     }
   };
 
-  // Get all transactions without pagination
 export const getAllTransactionsAll = async (req, res) => {
     try {
-      const transactions = await Transaction.find().sort({ createdAt: -1 }); // Sort by newest
+      const transactions = await Transaction.find().sort({ createdAt: -1 });
       res.status(200).json(transactions);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -45,7 +42,6 @@ export const getAllTransactionsAll = async (req, res) => {
   };
   
 
-// Get the latest 5 transactions sorted by newest
 export const getLatestTransactions = async (req, res) => {
     try {
       const transactions = await Transaction.find().sort({ createdAt: -1 }).limit(5);
@@ -55,7 +51,6 @@ export const getLatestTransactions = async (req, res) => {
     }
   };
 
-// Get a single transaction by ID
 export const getTransactionById = async (req, res) => {
   try {
     const transaction = await Transaction.findById(req.params.id);
@@ -68,7 +63,6 @@ export const getTransactionById = async (req, res) => {
   }
 };
 
-// Update a transaction
 export const updateTransaction = async (req, res) => {
   try {
     const updatedTransaction = await Transaction.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -81,7 +75,6 @@ export const updateTransaction = async (req, res) => {
   }
 };
 
-// Delete a transaction
 export const deleteTransaction = async (req, res) => {
   try {
     const deletedTransaction = await Transaction.findByIdAndDelete(req.params.id);

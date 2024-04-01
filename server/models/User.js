@@ -15,7 +15,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    // Validate email format
     validate: {
       validator: function(v) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -27,7 +26,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    // Validate minimum password length
     validate: {
       validator: function(v) {
         return v.length >= 8;
@@ -44,11 +42,11 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', async function(next) {
   this.password = await bcrypt.hash(this.password, 12);
   if (!this.id) {
-    const lastUser = await User.findOne({}, {}, { sort: { 'id': -1 } }); // Find the user with the highest id
+    const lastUser = await User.findOne({}, {}, { sort: { 'id': -1 } }); 
     if (lastUser) {
-      this.id = lastUser.id + 1; // Increment the id
+      this.id = lastUser.id + 1;
     } else {
-      this.id = 1; // If there are no users yet, start with 1
+      this.id = 1;
     }
   }
   next();

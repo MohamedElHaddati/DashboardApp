@@ -89,7 +89,7 @@ const SalesThisWeek: FC = function () {
            </h3>
          </div>
          <div className="flex flex-1 items-center justify-end text-base font-bold text-green-600 dark:text-green-400">
-          2.5%
+          {((totalSales/4500)-1).toFixed(2)}%
           <svg
             className="h-5 w-5"
             fill="currentColor"

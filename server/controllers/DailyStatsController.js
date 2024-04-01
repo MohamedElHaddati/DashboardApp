@@ -1,6 +1,5 @@
 import { DailyStats } from "../models/DailyStats.js"
 
-// Create a new daily stat
 export const createDailyStat = async (req, res) => {
     try {
       const newDailyStat = await DailyStats.create(req.body);
@@ -10,7 +9,6 @@ export const createDailyStat = async (req, res) => {
     }
   };
   
-  // Get all daily stats
   export const getAllDailyStats = async (req, res) => {
     try {
       const dailyStats = await DailyStats.find();
@@ -20,7 +18,6 @@ export const createDailyStat = async (req, res) => {
     }
   };
   
-  // Get a single daily stat by ds
   export const getDailyStatByDs = async (req, res) => {
     try {
       const dailyStat = await DailyStats.findOne({ ds: req.params.ds });
@@ -33,7 +30,6 @@ export const createDailyStat = async (req, res) => {
     }
   };
   
-  // Update a daily stat
   export const updateDailyStat = async (req, res) => {
     try {
       const updatedDailyStat = await DailyStats.findOneAndUpdate({ ds: req.params.ds }, req.body, { new: true });
@@ -46,7 +42,6 @@ export const createDailyStat = async (req, res) => {
     }
   };
   
-  // Delete a daily stat
   export const deleteDailyStat = async (req, res) => {
     try {
       const deletedDailyStat = await DailyStats.findOneAndDelete({ ds: req.params.ds });

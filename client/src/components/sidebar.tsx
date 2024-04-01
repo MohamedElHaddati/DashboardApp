@@ -6,9 +6,6 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import {
   HiChartPie,
-  HiClipboard,
-  HiCollection,
-  HiInformationCircle,
   HiOutlineCash,
   HiLogout,
   HiSearch,
@@ -34,11 +31,9 @@ const ExampleSidebar: FC = function () {
   
 
   useEffect(() => {
-    // Retrieve user information from localStorage
     const currentUserData = localStorage.getItem('currentUser');
 
     if (currentUserData) {
-      // Parse JSON string to object
       const parsedCurrentUser = JSON.parse(currentUserData);
       setCurrentUser(parsedCurrentUser);
     }
@@ -49,12 +44,11 @@ const ExampleSidebar: FC = function () {
   const handleLogout = async () => {
     try {
       await axios.post(`${BASE_URL}/logout`);
-      localStorage.removeItem('token'); // Clear token from localStorage
+      localStorage.removeItem('token');
       localStorage.removeItem('userId');
-      history('/sign-in'); // Redirect to login page after logout
+      history('/sign-in'); 
     } catch (error) {
       console.error('Logout failed:', error);
-      // Handle error (e.g., display a toast message)
     }
   };
 
@@ -76,7 +70,7 @@ const ExampleSidebar: FC = function () {
           </form>
           <Sidebar.Items>
             <Sidebar.ItemGroup>
-  {currentUser && ( // Check if userInfo is not null before rendering
+  {currentUser && ( 
     <Sidebar.Item>
       <div className="flex flex-wrap items-center gap-2">
         <div>

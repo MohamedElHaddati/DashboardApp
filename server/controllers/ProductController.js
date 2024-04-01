@@ -1,23 +1,18 @@
 import { Product } from "../models/Product.js";
 
-// Create a new product
 export const createProduct = async (req, res) => {
     try {
       const newProduct = await Product.create(req.body);
       res.status(201).json(newProduct);
     } catch (error) {
       if (error.code === 11000 && error.keyPattern && error.keyPattern.name && error.keyPattern.brand) {
-        // Handle duplicate key error (name and brand combination already exists)
-        // MongoDB command: db.Product.createIndex( { name: 1, brand: 1 }, { unique: true } )
         res.status(400).json({ message: 'Product with the same name and brand already exists' });
       } else {
-        // Handle other errors
         res.status(500).json({ message: 'An error occurred' });
       }
     }
   };
 
-// Get all products
 export const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -27,7 +22,6 @@ export const getAllProducts = async (req, res) => {
   }
 };
 
-// Get a single product by ID
 export const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -40,7 +34,6 @@ export const getProductById = async (req, res) => {
   }
 };
 
-// Update a product
 export const updateProduct = async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -53,7 +46,6 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-// Delete a product
 export const deleteProduct = async (req, res) => {
   try {
     const deletedProduct = await Product.findByIdAndDelete(req.params.id);
