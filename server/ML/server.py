@@ -1,29 +1,29 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 from prophet import Prophet
 import pandas as pd
+import requests
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route('/forecast', methods=['POST'])
+@app.route('/forecast', methods=['GET'])
 def forecast():
     try:
-        request_data = request.json
-        
-        daily_sales_data = request_data['salesData']
+        response = requests.get('http://localhost:5000/dailystats')
+        daily_sales_data = response.json()
 
         df = pd.DataFrame(daily_sales_data)
+        df['ds'] = pd.to_datetime(df['ds'])
 
         model = Prophet()
-
         model.fit(df)
 
         future = model.make_future_dataframe(periods=7, freq='D')
-
         forecast = model.predict(future)
 
         forecast_next_7_days = forecast[['ds', 'yhat']].tail(7)
-
-        forecast_next_7_days['date'] = forecast_next_7_days['ds'].dt.strftime('%d-%b')
+        forecast_next_7_days['date'] = forecast_next_7_days['ds'].dt.strftime('%b %d')
         forecast_next_7_days = forecast_next_7_days.rename(columns={'yhat': 'profit'})
         forecast_next_7_days['profit'] = forecast_next_7_days['profit'].round(2)
 
