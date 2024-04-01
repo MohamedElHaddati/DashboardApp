@@ -136,7 +136,7 @@ const ExampleSidebar: FC = function () {
                 Transactions
               </Sidebar.Item>
               <Sidebar.Item
-                href="/transactions"
+                href="/ai-analysis"
                 icon={HiTrendingUp}
                 className={
                   "/ai-analysis" === currentPage

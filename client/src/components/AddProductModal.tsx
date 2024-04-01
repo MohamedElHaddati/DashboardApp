@@ -101,7 +101,7 @@ const AddProductModal: FC = function () {
           setProducts([...products, newItem]);
           setProductName('');
           setProductBrand('');
-          setProductCategorie('');
+          setProductCategory('');
           setProductPrice('');
           setProductDescription('');
       } catch (error) {
@@ -203,7 +203,7 @@ const AddProductModal: FC = function () {
         </Modal.Body>
         <Modal.Footer>
         <Button color="primary" onClick={() => {
-                handleAdd2()
+                handleAdd()
 
                 setOpen(false)
             }}>

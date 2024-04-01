@@ -72,7 +72,7 @@ const options = {
     shared: true,
     intersect: false,
     formatter: function (value) {
-      return "$" + value
+      return value + ' DH'
     }
   },
   xaxis: {
@@ -83,7 +83,7 @@ const options = {
         cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
       },
       formatter: function(value) {
-        return "$" + value
+        return value + " MAD"
       }
     },
     categories: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -125,7 +125,7 @@ const SalesThisWeek: FC = function () {
       <div className="mb-4 flex items-center justify-between">
         <div className="shrink-0">
           <span className="text-2xl font-bold leading-none text-gray-900 dark:text-white sm:text-3xl">
-            Total MAD
+            4534.87 MAD
           </span>
           <h3 className="text-base font-normal text-gray-600 dark:text-gray-400">
             Sales this week
@@ -272,7 +272,7 @@ const SalesChart: FC = function () {
           fontWeight: 500,
         },
         formatter: function (value) {
-          return "$" + value;
+          return value + ' DH';
         },
       },
     },
@@ -328,7 +328,7 @@ const CategoriesPie: FC = function () {
 
   const getChartOptions = () => {
     return {
-      series: [35.1, 23.5, 2.4, 5.4],
+      series: [35, 23, 2, 5],
       colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#E74694"],
       chart: {
         height: 320,
@@ -352,13 +352,13 @@ const CategoriesPie: FC = function () {
               total: {
                 showAlways: true,
                 show: true,
-                label: "All Categories",
+                label: "Total Products",
                 fontFamily: "Inter, sans-serif",
                 formatter: function (w) {
                   const sum = w.globals.seriesTotals.reduce((a, b) => {
                     return a + b;
                   }, 0);
-                  return '$' + sum + 'k';
+                  return sum;
                 },
               },
               value: {
