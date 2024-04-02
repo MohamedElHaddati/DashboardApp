@@ -7,6 +7,16 @@ import useFetchTransactions from "./useFetchTransactions";
 const AllTransactionsTable: FC = function () {
   const { transactions, loading, error } = useFetchTransactions();
 
+  const formatDate = (dateString) => {
+    const dateObject = new Date(dateString);
+    const options = { 
+      month: 'long', 
+      day: 'numeric', 
+      year: 'numeric' 
+    };
+    return dateObject.toLocaleDateString('en-US', options);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -61,7 +71,7 @@ const AllTransactionsTable: FC = function () {
                     <span className="font-semibold"># {transaction.id}</span>
                   </Table.Cell>
                   <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-                    {transaction.date}
+                    {formatDate(transaction.date)}
                   </Table.Cell>
                   <Table.Cell className="whitespace-nowrap p-4 text-sm font-semibold text-gray-900 dark:text-white">
                     {transaction.amount} MAD

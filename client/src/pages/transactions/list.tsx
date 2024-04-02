@@ -11,10 +11,7 @@ import {
   import {
     HiChevronLeft,
     HiChevronRight,
-    HiCog,
     HiDocumentDownload,
-    HiDotsVertical,
-    HiExclamationCircle,
     HiHome,
     HiOutlineExclamationCircle,
     HiTrash,
@@ -28,14 +25,16 @@ import useFetchTransactions from "../../components/useFetchTransactions";
   
   const UserListPage: FC = function () {
 
-    const { transactions, loading, error } = useFetchTransactions();
+    const { transactions } = useFetchTransactions();
 
     const formatDate = (dateString) => {
-      const date = new Date(dateString);
-      const day = date.getDate().toString().padStart(2, '0');
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const year = date.getFullYear();
-      return `${day}/${month}/${year}`;
+      const dateObject = new Date(dateString);
+      const options = { 
+        month: 'long', 
+        day: 'numeric', 
+        year: 'numeric' 
+      };
+      return dateObject.toLocaleDateString('en-US', options);
     };
     
     const handleDownload = () => {
