@@ -21,6 +21,7 @@ import AllProductsTable from "../../components/AllProductsTable";
 import AddProductModal from "../../components/AddProductModal";
 
 const EcommerceProductsPage: FC = function () {
+  const [search, setSearch] = useState('');
   return (
     <NavbarSidebarLayout isFooter={false}>
       <div className="block items-center justify-between border-b border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex">
@@ -43,7 +44,20 @@ const EcommerceProductsPage: FC = function () {
             </h1>
           </div>
           <div className="block items-center sm:flex">
-            <SearchForProducts />
+            
+    <form className="mb-4 sm:mb-0 sm:pr-3" action="#" method="GET">
+      <Label htmlFor="products-search" className="sr-only">
+        Search
+      </Label>
+      <div className="relative mt-1 lg:w-64 xl:w-96">
+        <TextInput
+          onChange={(e) => setSearch(e.target.value)}
+          id="products-search"
+          name="products-search"
+          placeholder="Search for products"
+        />
+      </div>
+    </form>
             <div className="flex w-full items-center sm:justify-end">
               <AddProductModal />
             </div>
@@ -54,7 +68,7 @@ const EcommerceProductsPage: FC = function () {
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden shadow">
-              <AllProductsTable />
+              <AllProductsTable search={search} />
             </div>
           </div>
         </div>
@@ -64,22 +78,6 @@ const EcommerceProductsPage: FC = function () {
   );
 };
 
-const SearchForProducts: FC = function () {
-  return (
-    <form className="mb-4 sm:mb-0 sm:pr-3" action="#" method="GET">
-      <Label htmlFor="products-search" className="sr-only">
-        Search
-      </Label>
-      <div className="relative mt-1 lg:w-64 xl:w-96">
-        <TextInput
-          id="products-search"
-          name="products-search"
-          placeholder="Search for products"
-        />
-      </div>
-    </form>
-  );
-};
 
 /*const AddProductModal: FC = function () {
   const [isOpen, setOpen] = useState(false);

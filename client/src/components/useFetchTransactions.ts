@@ -19,13 +19,13 @@ const useFetchTransactions = (currentPage: number): FetchTransactionsResult => {
  useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/transaction?page=${currentPage}`);
+        const response = await fetch(`http://localhost:5000/transaction/all`);
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
         const jsonData = await response.json();
-        setTransactions(jsonData.transactions);
-        setTotalPages(jsonData.totalPages);
+        setTransactions(jsonData);
+        setTotalPages(1);
       } catch (error) {
         setError(error);
       } finally {

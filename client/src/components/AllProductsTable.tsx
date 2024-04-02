@@ -7,7 +7,11 @@ import { useEffect, type FC, useState } from "react";
 import { HiOutlineExclamationCircle, HiTrash } from "react-icons/hi";
 import EditProductModal from "./EditProductModal";
 
-const AllProductsTable: FC = function () {
+interface AllProductsTableProps {
+  search: string;
+}
+
+const AllProductsTable: FC<AllProductsTableProps> = function ({search}) {
 
 
   const [products, setProducts] = useState([]);
@@ -91,6 +95,10 @@ const AllProductsTable: FC = function () {
   if (error) return <div>Error: {error.message}</div>;
   if (!products) return <div>No data available</div>;
 
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(search.toLowerCase())
+  );
+
 
 
     return (
@@ -115,7 +123,7 @@ const AllProductsTable: FC = function () {
         <Table.HeadCell>Actions</Table.HeadCell>
       </Table.Head>
       <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
         <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
           {/*<Table.Cell className="w-4 p-4">
             <Checkbox />

@@ -7,7 +7,11 @@ import { useEffect, type FC, useState } from "react";
 import { HiOutlineExclamationCircle, HiTrash } from "react-icons/hi";
 import EditUserModal from "./EditUserModal";
 
-const AllUsersTable: FC = function () {
+interface AllUsersTableProps {
+  search: string;
+}
+
+const AllUsersTable: FC<AllUsersTableProps> = function ({ search }) {
 
 
   const [users, setUsers] = useState([]);
@@ -86,13 +90,16 @@ const AllUsersTable: FC = function () {
   if (error) return <div>Error: {error.message}</div>;
   if (!users) return <div>No data available</div>;
 
+  const filteredUsers = users.filter(user =>
+    user.name.toLowerCase().includes(search.toLowerCase())
+  );
+
 
     return (
 
 
 
 <>
-
 
 
       <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
@@ -103,7 +110,7 @@ const AllUsersTable: FC = function () {
           <Table.HeadCell>Actions</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <Table.Row key={user._id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
             <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
               <img

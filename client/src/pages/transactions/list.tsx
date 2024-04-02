@@ -23,8 +23,41 @@ import {
   import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
   import AllUsersTable from "../../components/AllUsersTable";
 import useFetchTransactions from "../../components/useFetchTransactions";
+
+
   
   const UserListPage: FC = function () {
+
+    const { transactions, loading, error } = useFetchTransactions();
+
+    const formatDate = (dateString) => {
+      const date = new Date(dateString);
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    };
+    
+    const handleDownload = () => {
+      const csvContent = "id,party,type,amount,status,date\n" +
+        transactions.map(transaction =>
+          `${transaction.id},${transaction.party},${transaction.type},${transaction.amount},${transaction.status},${formatDate(transaction.date)}`
+        ).join("\n");
+    
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      if (link.download !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", "transactions.csv");
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    };
+    
+
     return (
       <NavbarSidebarLayout isFooter={false}>
         <div className="block items-center justify-between border-b border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800 sm:flex">
@@ -58,42 +91,13 @@ import useFetchTransactions from "../../components/useFetchTransactions";
                     />
                   </div>
                 </form>
-                <div className="mt-3 flex space-x-1 pl-0 sm:mt-0 sm:pl-2">
-                  <a
-                    href="#"
-                    className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  >
-                    <span className="sr-only">Configure</span>
-                    <HiCog className="text-2xl" />
-                  </a>
-                  <a
-                    href="#"
-                    className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  >
-                    <span className="sr-only">Delete</span>
-                    <HiTrash className="text-2xl" />
-                  </a>
-                  <a
-                    href="#"
-                    className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  >
-                    <span className="sr-only">Purge</span>
-                    <HiExclamationCircle className="text-2xl" />
-                  </a>
-                  <a
-                    href="#"
-                    className="inline-flex cursor-pointer justify-center rounded p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  >
-                    <span className="sr-only">Settings</span>
-                    <HiDotsVertical className="text-2xl" />
-                  </a>
-                </div>
+                
               </div>
               <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
                 <Button color="gray">
                   <div className="flex items-center gap-x-3">
                     <HiDocumentDownload className="text-xl" />
-                    <span>Export</span>
+                    <span onClick={() => handleDownload()}>Export</span>
                   </div>
                 </Button>
               </div>
