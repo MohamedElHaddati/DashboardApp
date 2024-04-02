@@ -4,7 +4,12 @@ import {
 import { type FC} from "react";
 import useFetchTransactions from "./useFetchTransactions";
 
-const AllTransactionsTable: FC = function () {
+interface AllTransactionsTableProps {
+  search: string;
+}
+
+
+const AllTransactionsTable: FC<AllTransactionsTableProps> = function ({search}) {
   const { transactions, loading, error } = useFetchTransactions();
 
   const formatDate = (dateString) => {
@@ -21,7 +26,7 @@ const AllTransactionsTable: FC = function () {
     return <div>Loading...</div>;
   }
 
-  if (error) {
+  if (error) { 
     return <div>Error: {error.message}</div>;
   }
 
@@ -30,13 +35,13 @@ const AllTransactionsTable: FC = function () {
 
     switch (status) {
         case 'Failed':
-            badgeColor = 'bg-red-100 text-red-800';
+            badgeColor = 'bg-red-100 text-red-800 dark:bg-red-500';
             break;
         case 'Completed':
-            badgeColor = 'bg-green-100 text-green-800';
+            badgeColor = 'bg-green-100 text-green-800 dark:bg-green-500';
             break;
         case 'In Progress':
-            badgeColor = 'bg-purple-100 text-purple-800';
+            badgeColor = 'bg-purple-100 text-purple-800 dark:bg-purple-500';
             break;
         default:
             badgeColor = 'bg-blue-100 text-blue-800';
@@ -48,6 +53,10 @@ const AllTransactionsTable: FC = function () {
         </span>
     );
   };
+
+  const filteredTransactions = transactions.filter(transaction =>
+    transaction.party.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <>
@@ -64,7 +73,7 @@ const AllTransactionsTable: FC = function () {
               <Table.HeadCell>Status</Table.HeadCell>
             </Table.Head>
             <Table.Body className="bg-white dark:bg-gray-800">
-              {transactions.map((transaction) => (
+              {filteredTransactions.map((transaction) => (
                 <Table.Row key={transaction.id}>
                   <Table.Cell className="whitespace-nowrap p-4 text-sm font-normal text-gray-900 dark:text-white">
                     {transaction.type} to {transaction.party}

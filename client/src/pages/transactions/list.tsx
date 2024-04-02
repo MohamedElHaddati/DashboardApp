@@ -11,7 +11,10 @@ import {
   import {
     HiChevronLeft,
     HiChevronRight,
+    HiCog,
     HiDocumentDownload,
+    HiDotsVertical,
+    HiExclamationCircle,
     HiHome,
     HiOutlineExclamationCircle,
     HiTrash,
@@ -25,9 +28,10 @@ import useFetchTransactions from "../../components/useFetchTransactions";
   
   const UserListPage: FC = function () {
 
-    const { transactions } = useFetchTransactions();
+    const [search, setSearch] = useState('');
+    const { transactions } = useFetchTransactions(); 
 
-    const formatDate = (dateString) => {
+    const formatDate = (dateString) => { 
       const dateObject = new Date(dateString);
       const options = { 
         month: 'long', 
@@ -36,26 +40,27 @@ import useFetchTransactions from "../../components/useFetchTransactions";
       };
       return dateObject.toLocaleDateString('en-US', options);
     };
-    
-    const handleDownload = () => {
-      const csvContent = "id,party,type,amount,status,date\n" +
-        transactions.map(transaction =>
-          `${transaction.id},${transaction.party},${transaction.type},${transaction.amount},${transaction.status},${formatDate(transaction.date)}`
-        ).join("\n");
-    
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement("a");
-      if (link.download !== undefined) {
-        const url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", "transactions.csv");
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-    };
-    
+
+const handleDownload = () => {
+  console.log("lol")
+  const csvContent = "id,party,type,amount,status,date\n" +
+    transactions.map(transaction =>
+      `${transaction.id},${transaction.party},${transaction.type},${transaction.amount},${transaction.status},${formatDate(transaction.date)}`
+    ).join("\n");
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement("a");
+  if (link.download !== undefined) {
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "transactions.csv");
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+};
+
 
     return (
       <NavbarSidebarLayout isFooter={false}>
@@ -84,6 +89,7 @@ import useFetchTransactions from "../../components/useFetchTransactions";
                   </Label>
                   <div className="relative mt-1 lg:w-64 xl:w-96">
                     <TextInput
+                      onChange={(e) => setSearch(e.target.value)}
                       id="users-search"
                       name="users-search"
                       placeholder="Search for transactions"
@@ -107,7 +113,7 @@ import useFetchTransactions from "../../components/useFetchTransactions";
           <div className="overflow-x-auto">
             <div className="inline-block min-w-full align-middle">
               <div className="overflow-hidden shadow">
-                <AllTransactionstable />
+                <AllTransactionstable search={search} />
               </div>
             </div>
           </div>
